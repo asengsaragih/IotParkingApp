@@ -17,13 +17,23 @@ struct QRCodeData qrCodeData;
 #define WIFI_PASSWORD "Ganteng00!@#"
 
 bool isConnected = false;
-
 FirebaseData firebaseData; //Define Firebase Data object
-
 FirebaseConfig config;
 
-unsigned long sendDataPrevMillis = 0;
-int count = 0;
+//defined buzzer and other component
+#define BUZZER 12
+
+//fungsi untuk menghidupkkan buzzer
+void turnBuzzer(int looping, int delayTime)
+{
+  for (size_t i = 0; i < looping; i++)
+  {
+    digitalWrite(BUZZER, HIGH);
+    delay(delayTime);
+    digitalWrite(BUZZER, LOW);
+    delay(delayTime);
+  }
+}
 
 void checkQrcode(String qrcode)
 {
@@ -32,8 +42,12 @@ void checkQrcode(String qrcode)
     if (Firebase.getInt(firebaseData, "/Qrcode/" + qrcode))
     {
       Serial.println("Membuka gerbang otomatis");
-    } else {
+      turnBuzzer(2, 100);
+    }
+    else
+    {
       Serial.println("Qr tidak terdaftar di database");
+      turnBuzzer(1, 2000);
     }
   }
 }
@@ -78,6 +92,9 @@ void setup()
   reader.begin();
   Serial.println("QR Parking App");
 
+  //initialize component
+  pinMode(BUZZER, OUTPUT);
+
   delay(1000);
 }
 
@@ -101,6 +118,4 @@ void loop()
       Serial.println((const char *)qrCodeData.payload);
     }
   }
-
-  delay(500);
 }
