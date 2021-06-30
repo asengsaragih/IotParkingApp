@@ -13,8 +13,8 @@ struct QRCodeData qrCodeData;
 
 #define FIREBASE_HOST "https://smart-parking-adaab-default-rtdb.firebaseio.com/"
 #define FIREBASE_AUTH "ql7sXO5Lto6MnCAVdKI5IfAoZFGRxVA2vHYIkEIR"
-#define WIFI_SSID "Suncodeid"
-#define WIFI_PASSWORD "Ganteng00!@#"
+#define WIFI_SSID "214211"
+#define WIFI_PASSWORD "titodito1212"
 
 bool isConnected = false;
 FirebaseData firebaseData; //Define Firebase Data object
@@ -41,12 +41,15 @@ void checkQrcode(String qrcode)
   {
     if (Firebase.getInt(firebaseData, "/Qrcode/" + qrcode))
     {
-      Serial.println("Membuka gerbang otomatis");
+      // Serial.println("Membuka gerbang otomatis");
       turnBuzzer(2, 100);
+      
+      //open gate with serial communication
+      Serial.write("Open");
     }
     else
     {
-      Serial.println("Qr tidak terdaftar di database");
+      // Serial.println("Qr tidak terdaftar di database");
       turnBuzzer(1, 2000);
     }
   }
@@ -95,6 +98,8 @@ void setup()
   //initialize component
   pinMode(BUZZER, OUTPUT);
 
+  turnBuzzer(3, 50);
+
   delay(1000);
 }
 
@@ -102,20 +107,15 @@ void loop()
 {
   if (reader.receiveQrCode(&qrCodeData, 100))
   {
-    Serial.println("Found QRCode");
+    // Serial.println("Found QRCode");
     if (qrCodeData.valid)
     {
-      Serial.print("Payload: ");
-      Serial.println((const char *)qrCodeData.payload);
+      // Serial.print("Payload: ");
+      // Serial.println((const char *)qrCodeData.payload);
 
       String qrcodeResult = (const char *)qrCodeData.payload;
 
       checkQrcode(qrcodeResult);
-    }
-    else
-    {
-      Serial.print("Invalid: ");
-      Serial.println((const char *)qrCodeData.payload);
     }
   }
 }

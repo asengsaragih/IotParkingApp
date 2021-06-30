@@ -1,0 +1,61 @@
+#include <Servo.h>
+
+#define SERVO_PIN A0
+
+Servo servo;
+
+bool isTrue = false;
+
+void setup() {
+  Serial.begin(115200);
+
+  //servo initialize
+  servo.attach(SERVO_PIN);
+  closeGate();
+}
+
+void loop() {
+  //validate serial communication
+  if(Serial.available() > 0) 
+  {
+    String receiver = Serial.readString();
+
+    if(receiver == NULL && receiver == "") 
+    {
+      isTrue = false;
+    } 
+    else 
+    {
+      isTrue = true;  
+    }
+
+    if(isTrue == true)
+    {
+      openGate();
+      delay(5000);
+      closeGate();
+      
+      isTrue = false;
+    }
+  }
+}
+
+//function for open gate
+void openGate()
+{
+  for(int i = 0; i < 90; i++) 
+  {
+    servo.write(i);
+    delay(2);
+  }
+}
+
+//function for close gate
+void closeGate()
+{
+  for(int i = 90; i >= 0; i--) 
+  {
+    servo.write(i);
+    delay(2);
+  }
+}
