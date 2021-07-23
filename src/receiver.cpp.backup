@@ -11,7 +11,7 @@ void setup() {
 
   //servo initialize
   servo.attach(SERVO_PIN);
-  closeGate();
+  openGate();
 }
 
 void loop() {
@@ -20,20 +20,20 @@ void loop() {
   {
     String receiver = Serial.readString();
 
-    if(receiver == NULL && receiver == "") 
+    if(receiver.indexOf("Open") > 0) 
     {
-      isTrue = false;
+      isTrue = true;
     } 
     else 
     {
-      isTrue = true;  
+      isTrue = false;  
     }
 
     if(isTrue == true)
     {
-      openGate();
-      delay(5000);
       closeGate();
+      delay(5000);
+      openGate();
       
       isTrue = false;
     }
