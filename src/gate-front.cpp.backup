@@ -13,8 +13,8 @@ struct QRCodeData qrCodeData;
 
 #define FIREBASE_HOST "https://smart-parking-adaab-default-rtdb.firebaseio.com/"
 #define FIREBASE_AUTH "ql7sXO5Lto6MnCAVdKI5IfAoZFGRxVA2vHYIkEIR"
-#define WIFI_SSID "TITOO"
-#define WIFI_PASSWORD "titoo666"
+#define WIFI_SSID "AsusTito"
+#define WIFI_PASSWORD "12345678"
 
 bool isConnected = false;
 FirebaseData firebaseData; //Define Firebase Data object

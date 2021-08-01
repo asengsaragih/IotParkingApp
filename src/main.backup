@@ -12,9 +12,9 @@ struct QRCodeData qrCodeData;
 #include "addons/RTDBHelper.h"  //Provide the RTDB payload printing info and other helper functions.
 
 #define FIREBASE_HOST "https://smart-parking-adaab-default-rtdb.firebaseio.com/"
-#define FIREBASE_AUTH "ql7sXO5Lto6MnCAVdKI5IfAoZFGRxVA2vHYIkEIR"
-#define WIFI_SSID "TITOO"
-#define WIFI_PASSWORD "titoo666"
+#define FIREBASE_AUTH "TePLs6QDQjjn4KsgKsHG0B41szYNWXnRr1X5Josi"
+#define WIFI_SSID "214211"
+#define WIFI_PASSWORD "titodito1212"
 
 bool isConnected = false;
 FirebaseData firebaseData; //Define Firebase Data object
@@ -46,8 +46,15 @@ void updateStatusOrderAndSlotFirebase(String orderKey)
   Serial.write("Open");
 
   //update status in root order
-  //status 2 on order pending
-  Firebase.setInt(firebaseData, "/Order/" + orderKey + "/status", 2);
+  //status 1 on order selesai
+  Firebase.setInt(firebaseData, "/Order/" + orderKey + "/status", 1);
+
+  //update slot
+  if(Firebase.getString(firebaseData, "/Order/" + orderKey + "/slotKey"))
+  {
+    String slotKey = firebaseData.stringData();
+    Firebase.setBool(firebaseData, "/Slot/" + slotKey + "/available", true);
+  }
 }
 
 void checkQrcode(String qrcode)
